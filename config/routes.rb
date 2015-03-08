@@ -1,8 +1,11 @@
 Rails.application.routes.draw do
-  # finds the topic in the database with that id and stores it in the variable @topic
+
+  devise_for :users
   resources :topics do
     member do
         post 'upvote'
+        post 'downvote'
+        post 'unwanted'
     end
   end
 

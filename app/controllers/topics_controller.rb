@@ -29,7 +29,9 @@ class TopicsController < ApplicationController
 
     respond_to do |format|
       if @topic.save
-        format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
+        # Changing @topic to topics_path
+        # format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
+        format.html { redirect_to topics_path, notice: 'Topic was successfully created.' }
         format.json { render :show, status: :created, location: @topic }
       else
         format.html { render :new }
@@ -43,7 +45,9 @@ class TopicsController < ApplicationController
   def update
     respond_to do |format|
       if @topic.update(topic_params)
-        format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
+        # Change topic
+        # format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
+        format.html { redirect_to topics_path, notice: 'Topic was successfully updated.' }
         format.json { render :show, status: :ok, location: @topic }
       else
         format.html { render :edit }
@@ -67,6 +71,17 @@ class TopicsController < ApplicationController
       @topic = Topic.find(params[:id])   # finds the topic in the database with that id and stores it in the variable @topic
       @topic.votes.create  # creates a new vote for the current topic and saves it in the database.
       redirect_to(topics_path)   # tells the browser to go back to topics_path (the topics list).
+  end
+
+  # down vote a topic
+  def downvote
+    @topic = Topic.find(params[:id])
+    @topic.votes.first.destroy   # doesn't matter where to delete from vote
+    redirect_to(topics_path)
+  end
+
+  def unwanted
+      @topics = Topic.all
   end
 
   private
