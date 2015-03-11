@@ -81,8 +81,18 @@ class TopicsController < ApplicationController
   end
 
   def unwanted
-      @topics = Topic.all
+   @topics = Topic.all
   end
+
+
+  def mostVoted
+    @topics = Topic.all
+    @topics.sort_by do |votes|
+      @topics.votes.count
+    end
+    redirect_to(topics_path)
+  end
+
 
   private
     # Use callbacks to share common setup or constraints between actions.
